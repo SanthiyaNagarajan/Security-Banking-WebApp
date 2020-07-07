@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-sm-11">
+    <h4>Welcome <span id="firstName" [innerHTML]="this.firstName"></span> :D !</h4>
+  </div>
+  <div class="col-sm-1">
+    <button class="btn btn-link" routerLink='/login' (click)="onLogout()">Logout</button>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;padding: 20px">
+  <div class="card-header">
+    Options
+  </div>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><button class="btn btn-dark" (click)="onClickCheckBalance()">Check balance</button></li>
+    <div style="padding-top: 20px" *ngIf="checkBalanceSelect">
+      <form ngForm (submit)="onCheckBalance()" #balanceForm="ngForm">
+        <div class="form-group">
+          <label for="txtPassword">Password</label>
+          <input type="password"
+                 ngModel
+                 class="form-control"
+                 id="txtPassword"
+                 [(ngModel)]="transaction.password"
+                 name="password"
+                 #password = "ngModel"
+                 required>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)"
+               class="alert alert-danger">
+            <div *ngIf="password.errors.required">
+              Password is required.
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="balanceForm.invalid">Submit</button>
+      </form>
+    </div>
+
+    <li class="list-group-item"><button class="btn btn-dark" (click)="onClickDeposit()">Deposit</button></li>
+    <div style="padding-top: 20px" *ngIf="depositSelect">
+      <form ngForm (submit)="onDeposit()" #depositForm="ngForm">
+        <div class="form-group">
+          <label for="txtDepositAmount">Amount to deposit (USD)</label>
+          <input
+            ngModel
+            type="text"
+            class="form-control"
+            name="depositAmount"
+            id="txtDepositAmount"
+            [(ngModel)]="transaction.amount"
+            #depositAmount="ngModel"
+            appNumeric
+            required>
+          <div *ngIf="depositAmount.invalid && (depositAmount.dirty || depositAmount.touched)"
+               class="alert alert-danger">
+            <div *ngIf="depositAmount.errors.required">
+              Please enter the amount to be deposited.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password</label>
+          <input type="password"
+                 ngModel
+                 class="form-control"
+                 [(ngModel)]="transaction.password"
+                 name="password"
+                 #password = "ngModel"
+                 required>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)"
+               class="alert alert-danger">
+            <div *ngIf="password.errors.required">
+              Password is required.
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="depositForm.invalid">Submit</button>
+      </form>
+    </div>
+
+    <li class="list-group-item"><button class="btn btn-dark" (click)="onClickWithdraw()">Withdraw</button></li>
+    <div style="padding-top: 20px" *ngIf="withdrawSelect">
+      <form ngForm (submit)="onWithdraw()" #withdrawForm="ngForm">
+        <div class="form-group">
+          <label for="txtDepositAmount">Amount to withdraw (USD)</label>
+          <input
+            ngModel
+            type="text"
+            class="form-control"
+            name="withdrawAmount"
+            id="txtWithdrawAmount"
+            [(ngModel)]="transaction.amount"
+            #withdrawAmount="ngModel"
+            appNumeric
+            required>
+          <div *ngIf="withdrawAmount.invalid && (withdrawAmount.dirty || withdrawAmount.touched)"
+               class="alert alert-danger">
+            <div *ngIf="withdrawAmount.errors.required">
+              Please enter the amount to be withdrawn.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtPassword">Password</label>
+          <input type="password"
+                 ngModel
+                 class="form-control"
+                 [(ngModel)]="transaction.password"
+                 name="password"
+                 #password = "ngModel"
+                 required>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)"
+               class="alert alert-danger">
+            <div *ngIf="password.errors.required">
+              Password is required.
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="withdrawForm.invalid">Submit</button>
+      </form>
+    </div>
+  </ul>
+
+</div>
+
+<div class="alert alert-danger" *ngIf="manageErrorStatus">
+  {{errormessage}}
+</div>
+<div class="alert alert-success" *ngIf="successStatus">
+  {{successmessage}}
+</div>
+
+<div style="padding-top: 20px" *ngIf="!manageErrorStatus && (submitCheckBalanceSelect || submitDepositSelect || submitWithDrawSelect)">
+  <h4>Account balance: USD {{account.balance}}</h4>
+</div>
